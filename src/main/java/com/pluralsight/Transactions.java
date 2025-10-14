@@ -11,4 +11,12 @@ public class Transactions {
     private String vendor;
     private double amount;
 
+    //constructor initializes the value of the transaction variables
+    public Transactions(LocalDate date, LocalTime time, String description, String vendor, double amount) {
+        this.date = date;
+        this.time = time;
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
+    }
 }
