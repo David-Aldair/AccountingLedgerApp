@@ -5,11 +5,14 @@ import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class AccountingLedger {
 
 //creating an array list for the transactions class
     private static ArrayList<Transactions> transList = new ArrayList<Transactions>();
+
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -17,6 +20,9 @@ public class AccountingLedger {
     adding try and catch so that errors are caught
     and they don't end the program prematurely */
         try{
+        /*reading each line from transactions.csv and then converting each line into usable data and
+        then creating a transactions object from each transactions listed in the csv, and we're also storing
+        it in the array list*/
             BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
             String input;
 
@@ -31,6 +37,8 @@ public class AccountingLedger {
                 double amount = Double.parseDouble(storage[4]);
 
 
+                /*declaring the variable "t", its data type is "Transactions" and your assigning the value of "t"
+                to a new "Transactions" object, passing in the arguments into the constructor method()*/
                 Transactions t = new Transactions(date, time, description, vendor, amount);
                 transList.add(t);
             }
@@ -39,6 +47,44 @@ public class AccountingLedger {
             System.exit(0);
 
 
+        }
+        //while loop uses isRunning to keep the menu running
+        //assigning boolean true to keep the menu running
+        boolean isRunning = true;
+        while (isRunning) {
+
+            System.out.println("""
+                    Welcome to the Account Ledger!
+                    
+                    Enter D) Add Deposit
+                    Enter P) Make Payment(Debit)
+                    Enter L) Ledger
+                    Enter X) Exit Application
+                    """);
+
+            String input = scanner.nextLine();
+
+            switch (input) {
+                case "D":
+                    addDeposit();
+                    break;
+
+                case "P":
+                    //makePayment();
+                    break;
+
+                case "L":
+                    //ledger();
+                    break;
+
+                case "X":
+                    isRunning = false;//boolean false so that it exits the app instead of re-displaying the menu
+                    break;
+
+                default:
+                    System.out.println("Invalid Input: Try Again!");//when things go wrong, this keeps it going(re-displays the menu)
+
+            }
         }
     }
 
