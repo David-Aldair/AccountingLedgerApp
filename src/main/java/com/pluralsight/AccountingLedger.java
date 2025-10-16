@@ -55,7 +55,7 @@ public class AccountingLedger {
         while (isRunning) {
 
             System.out.println("""
-                    Welcome to the wonderful Ledger!
+                    Welcome to the Account Ledger!
                     
                     Enter D) Add Deposit
                     Enter P) Make Payment (Debit)
@@ -71,7 +71,7 @@ public class AccountingLedger {
                     break;
 
                 case "P":
-                    //makePayment();
+                    makePayment();
                     break;
 
                 case "L":
@@ -123,6 +123,33 @@ public class AccountingLedger {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
+    //prompting the user for a payment
+    public static void makePayment() {
 
+        System.out.println("What is the payment amount?: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        amount = -Math.abs(amount);//absolute number
+
+        System.out.println("Who or what did you pay (vendor/store/person)?: ");
+        String vendor = scanner.nextLine();
+
+        System.out.println("Provide a short description (ex: Rent, Groceries, etc): ");
+        String description = scanner.nextLine();
+
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        Transactions t = new Transactions(date, time, description, vendor, amount);
+        transList.add(t);
+        storeInCsvFile(t);
+
+        System.out.println("Payment recorded successfully!");
+        System.out.println();
+
+        System.out.println("Press Enter to return to the main menu ");
+        scanner.nextLine();
+    }
 
 }
