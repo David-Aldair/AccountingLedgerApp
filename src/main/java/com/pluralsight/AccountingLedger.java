@@ -169,7 +169,7 @@ public class AccountingLedger {
 
             switch (input) {
                 case "A":
-                    //showAllTransactions();
+                    showAllTransactions();
                     break;
 
                 case "D":
@@ -192,6 +192,19 @@ public class AccountingLedger {
                     System.out.println("Invalid Input: Try Again!");
             }
         }
+    }
+    // Displays every transaction stored in the transList
+    public static void showAllTransactions() {
+        System.out.println("All Transactions:");
+
+        // Loop through each transaction and print its CSV line
+        for (Transactions t : transList) {
+            System.out.println(t.toCsv());
+        }
+
+        // Wait for user before returning to menu
+        System.out.println("Press Enter to return...");
+        scanner.nextLine();
     }
 
 }
