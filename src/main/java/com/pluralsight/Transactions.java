@@ -60,4 +60,9 @@ public class Transactions {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+    //converts the transaction object to a single line of text format
+    public String toCsv() {
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+    }
+
 }

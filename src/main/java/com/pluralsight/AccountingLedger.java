@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class AccountingLedger {
 
 //creating an array list for the transactions class
-    private static ArrayList<Transactions> transList = new ArrayList<Transactions>();
+    public static ArrayList<Transactions> transList = new ArrayList<>();
 
     public static Scanner scanner = new Scanner(System.in);
 
@@ -21,7 +22,7 @@ public class AccountingLedger {
     and they don't end the program prematurely */
         try{
         /*reading each line from transactions.csv and then converting each line into usable data and
-        then creating a transactions object from each transactions listed in the csv, and we're also storing
+        then creating a transactions object from each transaction listed in the csv, and we're also storing
         it in the array list*/
             BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
             String input;
@@ -113,8 +114,14 @@ public class AccountingLedger {
         storeInCsvFile(t);
     }
     //store the data into the csv file
-    public static void storeInCsvFile(Transactions transactions){
-
+    public static void storeInCsvFile(Transactions t) {
+        try {
+            FileWriter writer = new FileWriter("transactions.csv", true);
+            writer.write(t.toCsv() + "\n"); // Write one line and go to next
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
     }
 
 
