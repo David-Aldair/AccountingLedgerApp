@@ -177,7 +177,7 @@ public class AccountingLedger {
                     break;
 
                 case "P":
-                    //showPayments();
+                    showPayments();
                     break;
 
                 case "R":
@@ -209,13 +209,25 @@ public class AccountingLedger {
     public static void showDeposits() {
         System.out.println("Deposits Only:");
 
-        // Loop through all transactions and only show positive ones
+        //Loops through all transactions, and shows the positive ones
         for (Transactions t : transList) {
             if (t.getAmount() > 0) {
                 System.out.println(t.toCsv());
             }
         }
-        // Wait for user before returning to menu
+        System.out.println("Press Enter to return");
+        scanner.nextLine();
+    }
+    // Displays only payment transactions (amount < 0)
+    public static void showPayments() {
+        System.out.println("Payments Only:");
+
+        //Loops through all transactions, and shows the negative ones
+        for (Transactions t : transList) {
+            if (t.getAmount() < 0) {
+                System.out.println(t.toCsv());
+            }
+        }
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
