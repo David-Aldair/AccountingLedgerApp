@@ -75,7 +75,7 @@ public class AccountingLedger {
                     break;
 
                 case "L":
-                    //ledger();
+                    ledger();
                     break;
 
                 case "X":
@@ -150,6 +150,48 @@ public class AccountingLedger {
 
         System.out.println("Press Enter to return to the main menu ");
         scanner.nextLine();
+    }
+    public static void ledger() {
+        boolean isRunning = true;
+
+        while (isRunning) {
+            System.out.println("""
+                         Ledger Menu
+                    
+                    Enter A) All Transactions
+                    Enter D) Deposits
+                    Enter P) Payments
+                    Enter R) Reports
+                    Enter H) Home
+                    """);
+
+            String input = scanner.nextLine().toUpperCase();
+
+            switch (input) {
+                case "A":
+                    //showAllTransactions();
+                    break;
+
+                case "D":
+                    //showDeposits();
+                    break;
+
+                case "P":
+                    //showPayments();
+                    break;
+
+                case "R":
+                    //showReports();
+                    break;
+
+                case "H":
+                    isRunning = false; // exit ledger menu
+                    break;
+
+                default:
+                    System.out.println("Invalid Input: Try Again!");
+            }
+        }
     }
 
 }
