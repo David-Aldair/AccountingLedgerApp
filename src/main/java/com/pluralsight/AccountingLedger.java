@@ -54,10 +54,10 @@ public class AccountingLedger {
         while (isRunning) {
 
             System.out.println("""
-                    Welcome to the Account Ledger!
+                    Welcome to the wonderful Ledger!
                     
                     Enter D) Add Deposit
-                    Enter P) Make Payment(Debit)
+                    Enter P) Make Payment (Debit)
                     Enter L) Ledger
                     Enter X) Exit Application
                     """);
@@ -88,7 +88,34 @@ public class AccountingLedger {
         }
     }
 
+    //prompt the user for deposit information (date|time|description|vendor|amount) and save it to the csv file
+    //also save it to the array list "transList"
 
+    public static void addDeposit(){
+
+        System.out.println("How much would you like to add?: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.println("From what vendor/store/place?: " );
+        String vendor = scanner.nextLine();
+
+        System.out.println("Provide a description/item: ");
+        String item = scanner.nextLine();
+
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        Transactions t = new Transactions(date, time, item, vendor, amount);
+
+        transList.add(t);
+
+        storeInCsvFile(t);
+    }
+    //store the data into the csv file
+    public static void storeInCsvFile(Transactions transactions){
+
+    }
 
 
 }
