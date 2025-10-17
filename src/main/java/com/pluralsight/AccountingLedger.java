@@ -181,7 +181,7 @@ public class AccountingLedger {
                     break;
 
                 case "R":
-                    //showReports();
+                    showReports();
                     break;
 
                 case "H":
@@ -230,6 +230,51 @@ public class AccountingLedger {
         }
         System.out.println("Press Enter to return");
         scanner.nextLine();
+    }
+    public static void showReports() {
+        boolean isRunning = true; // keeps the reports menu active
+
+        while (isRunning) {
+            // Display the list of report options
+            System.out.println("""
+                    
+                          Reports Menu
+                    
+                    Enter 1) Month to Date
+                    Enter 2) Previous Month
+                    Enter 3) Year to Date
+                    Enter 4) Previous Year
+                    Enter 5) Search by Vendor
+                    Enter 0) Back to Ledger
+                    """);
+
+            // Take user input
+            String input = scanner.nextLine();
+
+            // Handle user choice
+            switch (input) {
+                case "1":
+                    //monthToDate();
+                    break;
+                case "2":
+                    //previousMonth();
+                    break;
+                case "3":
+                    //yearToDate();
+                    break;
+                case "4":
+                    //previousYear();
+                    break;
+                case "5":
+                    //searchByVendor();
+                    break;
+                case "0":
+                    isRunning = false; // exits back to Ledger menu
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again!");
+            }
+        }
     }
 
 }
