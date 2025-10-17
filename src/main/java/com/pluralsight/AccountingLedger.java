@@ -27,14 +27,17 @@ public class AccountingLedger {
             BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
             String input;
 
-        //while loop to split the transaction
+        //loop through each line in the Csv file until the end of the file basically(null)
             while((input = reader.readLine()) != null){
+                //splitting the line using the pipe delimiter
                 String[] storage = input.split("\\|");
 
+                //parsing the data from the array
                 LocalDate date = LocalDate.parse(storage[0]);
                 LocalTime time = LocalTime.parse(storage[1]);
                 String description = storage[2];
                 String vendor = storage[3];
+                //amount is stored as a string so it must be converted into a doubld
                 double amount = Double.parseDouble(storage[4]);
 
 
@@ -44,6 +47,7 @@ public class AccountingLedger {
                 transList.add(t);
             }
         }catch(Exception e){
+            // If the file is not found or has invalid data, print an error and exit the program.
             System.out.println("Invalid: Can't Read File");
             System.exit(0);
 
@@ -115,10 +119,8 @@ public class AccountingLedger {
     }
     //store the data into the csv file
     public static void storeInCsvFile(Transactions t) {
-        try {
-            FileWriter writer = new FileWriter("transactions.csv", true);
+        try (FileWriter writer = new FileWriter("transactions.csv", true)) { // Writer is now automatically closed
             writer.write(t.toCsv() + "\n"); // Write one line and go to next
-            writer.close();
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }
@@ -347,7 +349,6 @@ public class AccountingLedger {
         if (!found) {
             System.out.println("No transactions found for vendor: " + vendorName);
         }
-
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
