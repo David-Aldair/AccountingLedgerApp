@@ -263,7 +263,7 @@ public class AccountingLedger {
                     yearToDate();
                     break;
                 case "4":
-                    //previousYear();
+                    previousYear();
                     break;
                 case "5":
                     //searchByVendor();
@@ -314,6 +314,18 @@ public class AccountingLedger {
         int year = LocalDate.now().getYear();
         for (Transactions t : transList) {
             if (t.getDate().getYear() == year) {
+                System.out.println(t.toCsv());
+            }
+        }
+        System.out.println("Press Enter to return");
+        scanner.nextLine();
+    }
+    // Shows all transactions from the previous year
+    public static void previousYear() {
+        System.out.println("Previous Year Transactions:");
+        int prevYear = LocalDate.now().getYear() - 1;
+        for (Transactions t : transList) {
+            if (t.getDate().getYear() == prevYear) {
                 System.out.println(t.toCsv());
             }
         }
