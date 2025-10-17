@@ -101,9 +101,10 @@ public class AccountingLedger {
 
     public static void addDeposit(){
 
+        //get the amount and handle an input that isn't a number
         System.out.println("How much would you like to add?: ");
         double amount = scanner.nextDouble();
-        scanner.nextLine();
+        scanner.nextLine(); //consuming the newline character left by nextDouble
 
         System.out.println("From what vendor/store/place?: " );
         String vendor = scanner.nextLine();
@@ -111,31 +112,45 @@ public class AccountingLedger {
         System.out.println("Provide a description/item: ");
         String item = scanner.nextLine();
 
+        //automatically setting the current date and time for the transaction
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
 
+        //let user know the deposit was recorded, and wait for comfirmation before going back to the main menu
+        System.out.println("Deposit recorded successfully");
+        System.out.println();
+
+        System.out.println("Press Enter to return to the main menu");
+        scanner.nextLine();
+
+        //creating the new transactions object
         Transactions t = new Transactions(date, time, item, vendor, amount);
 
+        //this allows to add the new transaction to the memory
         transList.add(t);
 
+        //saving the transaction the csv file
         storeInCsvFile(t);
     }
     //store the data into the csv file
+    //appends a transaction to the "transactions.csv" file.
+    //uses try-with-resources to automatically close the FileWriter,
     public static void storeInCsvFile(Transactions t) {
         try (FileWriter writer = new FileWriter("transactions.csv", true)) { // Writer is now automatically closed
+            //writing the transaction as a pipe separated string, followed by a newline.
             writer.write(t.toCsv() + "\n"); // Write one line and go to next
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
-    //prompting the user for a payment
+    //prompting the user for a payment ensuring the amount is negative
     public static void makePayment() {
 
         System.out.println("What is the payment amount?: ");
         double amount = scanner.nextDouble();
         scanner.nextLine();
 
-        amount = -Math.abs(amount);//absolute number
+        amount = -Math.abs(amount);//absolute number, converts the input amount to a negative number
 
         System.out.println("Who or what did you pay (vendor/store/person)?: ");
         String vendor = scanner.nextLine();
@@ -143,9 +158,11 @@ public class AccountingLedger {
         System.out.println("Provide a short description (ex: Rent, Groceries, etc): ");
         String description = scanner.nextLine();
 
+        //getting the current date and time again
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
 
+        //creating the new transactions object
         Transactions t = new Transactions(date, time, description, vendor, amount);
         transList.add(t);
         storeInCsvFile(t);
@@ -156,8 +173,9 @@ public class AccountingLedger {
         System.out.println("Press Enter to return to the main menu ");
         scanner.nextLine();
     }
+    //displaying the ledger menu
     public static void ledger() {
-        boolean isRunning = true;
+        boolean isRunning = true; //keeping the menu loop running
 
         while (isRunning) {
             System.out.println("""
@@ -174,19 +192,19 @@ public class AccountingLedger {
 
             switch (input) {
                 case "A":
-                    showAllTransactions();
+                    showAllTransactions(); //display every transaction
                     break;
 
                 case "D":
-                    showDeposits();
+                    showDeposits();//displaying the deposits(positive amount)
                     break;
 
                 case "P":
-                    showPayments();
+                    showPayments();//displayig the payments(negative amount)
                     break;
 
                 case "R":
-                    showReports();
+                    showReports();//entering the reports menu
                     break;
 
                 case "H":
@@ -198,23 +216,23 @@ public class AccountingLedger {
             }
         }
     }
-    // Displays every transaction stored in the transList
+    //displays every transaction stored in the transList
     public static void showAllTransactions() {
         System.out.println("All Transactions:");
 
-        // Loop through each transaction and print its CSV line
+        //loop through each transaction and print its CSV line
         for (Transactions t : transList) {
             System.out.println(t.toCsv());
         }
-        // Wait for user before returning to menu
+        //wait for user before returning to menu
         System.out.println("Press Enter to return...");
         scanner.nextLine();
     }
-    // Displays only deposit transactions (amount > 0)
+    //displays only deposit transactions (amount > 0)
     public static void showDeposits() {
         System.out.println("Deposits Only:");
 
-        //Loops through all transactions, and shows the positive ones
+        //loops through all transactions, and shows the positive ones
         for (Transactions t : transList) {
             if (t.getAmount() > 0) {
                 System.out.println(t.toCsv());
@@ -223,11 +241,11 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
-    // Displays only payment transactions (amount < 0)
+    //displays only payment transactions (amount < 0)
     public static void showPayments() {
         System.out.println("Payments Only:");
 
-        //Loops through all transactions, and shows the negative ones
+        //loops through all transactions, and shows the negative ones
         for (Transactions t : transList) {
             if (t.getAmount() < 0) {
                 System.out.println(t.toCsv());
@@ -236,11 +254,12 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
+    //displaying the reports menu
     public static void showReports() {
         boolean isRunning = true; // keeps the reports menu active
 
         while (isRunning) {
-            // Display the list of report options
+            //display the list of report options
             System.out.println("""
                     
                           Reports Menu
@@ -253,10 +272,9 @@ public class AccountingLedger {
                     Enter 0) Back to Ledger
                     """);
 
-            // Take user input
             String input = scanner.nextLine();
 
-            // Handle user choice
+            //calling the reporting method based on the user input
             switch (input) {
                 case "1":
                     monthToDate();
@@ -274,7 +292,7 @@ public class AccountingLedger {
                     searchByVendor();
                     break;
                 case "0":
-                    isRunning = false; // exits back to Ledger menu
+                    isRunning = false; //exits back to Ledger menu
                     break;
                 default:
                     System.out.println("Invalid choice. Try again!");
@@ -284,11 +302,11 @@ public class AccountingLedger {
     public static void monthToDate() {
         System.out.println("Month-to-Date Transactions:");
 
-        // Get the current date
+        //get the current date to compare agi
         LocalDate now = LocalDate.now();
 
         //for every transaction t in transList
-        // Loop through each transaction in the list
+        //loop through each transaction in the list
         for (Transactions t : transList) {
             // Check if transaction month and year match the current month/year
             if (t.getDate().getMonth() == now.getMonth() && t.getDate().getYear() == now.getYear()) {
@@ -301,11 +319,11 @@ public class AccountingLedger {
 
         //get the current month
         LocalDate now = LocalDate.now();
+        //calculating the date 1 month ago
         LocalDate prevMonth = now.minusMonths(1);
 
-
         for(Transactions t : transList){
-
+            // Check if the transaction's month AND year match the previous month/year
             if(t.getDate().getMonth()== prevMonth.getMonth() && t.getDate().getYear() == prevMonth.getYear()){
                 System.out.println(t.toCsv());
             }
@@ -313,11 +331,13 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
-    // Shows all transactions from the current year
+    //shows all transactions from the current year
     public static void yearToDate() {
         System.out.println("Year-to-Date Transactions:");
+        //get the current year as an int
         int year = LocalDate.now().getYear();
         for (Transactions t : transList) {
+            //checking if the transaction's year matches the current year
             if (t.getDate().getYear() == year) {
                 System.out.println(t.toCsv());
             }
@@ -325,11 +345,14 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
-    // Shows all transactions from the previous year
+    //shows all transactions from the previous year
     public static void previousYear() {
         System.out.println("Previous Year Transactions:");
+
+        //calculating the previous year
         int prevYear = LocalDate.now().getYear() - 1;
         for (Transactions t : transList) {
+            //check if the transaction's year matches the previous year
             if (t.getDate().getYear() == prevYear) {
                 System.out.println(t.toCsv());
             }
@@ -337,18 +360,20 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
-    // Lets the user search for transactions by vendor name
+    //lets the user search for transactions by vendor name
     public static void searchByVendor() {
         System.out.print("Enter vendor name to search: ");
+        //reading the input and convert to lowercase for case-insensitive search
         String vendorName = scanner.nextLine().toLowerCase();
-
         boolean found = false;
         for (Transactions t : transList) {
+            //check if the vendor name (converted to lowercase) contains the search string.
             if (t.getVendor().toLowerCase().contains(vendorName)) {
                 System.out.println(t.toCsv());
                 found = true;
             }
         }
+        //if no transactions were printed, notify the user.
         if (!found) {
             System.out.println("No transactions found for vendor: " + vendorName);
         }
