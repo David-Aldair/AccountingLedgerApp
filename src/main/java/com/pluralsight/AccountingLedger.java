@@ -254,7 +254,7 @@ public class AccountingLedger {
             // Handle user choice
             switch (input) {
                 case "1":
-                    //monthToDate();
+                    monthToDate();
                     break;
                 case "2":
                     //previousMonth();
@@ -273,6 +273,21 @@ public class AccountingLedger {
                     break;
                 default:
                     System.out.println("Invalid choice. Try again!");
+            }
+        }
+    }
+    public static void monthToDate() {
+        System.out.println("Month-to-Date Transactions:");
+
+        // Get the current date
+        LocalDate now = LocalDate.now();
+
+        //for every transaction t in transList
+        // Loop through each transaction in the list
+        for (Transactions t : transList) {
+            // Check if transaction month and year match the current month/year
+            if (t.getDate().getMonth() == now.getMonth() && t.getDate().getYear() == now.getYear()) {
+                System.out.println(t.toCsv()); // print transaction details
             }
         }
     }
