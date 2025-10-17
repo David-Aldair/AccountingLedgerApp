@@ -266,7 +266,7 @@ public class AccountingLedger {
                     previousYear();
                     break;
                 case "5":
-                    //searchByVendor();
+                    searchByVendor();
                     break;
                 case "0":
                     isRunning = false; // exits back to Ledger menu
@@ -332,5 +332,23 @@ public class AccountingLedger {
         System.out.println("Press Enter to return");
         scanner.nextLine();
     }
+    // Lets the user search for transactions by vendor name
+    public static void searchByVendor() {
+        System.out.print("Enter vendor name to search: ");
+        String vendorName = scanner.nextLine().toLowerCase();
 
+        boolean found = false;
+        for (Transactions t : transList) {
+            if (t.getVendor().toLowerCase().contains(vendorName)) {
+                System.out.println(t.toCsv());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found for vendor: " + vendorName);
+        }
+
+        System.out.println("Press Enter to return");
+        scanner.nextLine();
+    }
 }
