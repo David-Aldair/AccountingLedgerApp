@@ -257,7 +257,7 @@ public class AccountingLedger {
                     monthToDate();
                     break;
                 case "2":
-                    //previousMonth();
+                    previousMonth();
                     break;
                 case "3":
                     //yearToDate();
@@ -290,6 +290,23 @@ public class AccountingLedger {
                 System.out.println(t.toCsv()); // print transaction details
             }
         }
+    }
+    public static void previousMonth(){
+        System.out.println("Previous-Month-Transactions");
+
+        //get the current month
+        LocalDate now = LocalDate.now();
+        LocalDate prevMonth = now.minusMonths(1);
+
+
+        for(Transactions t : transList){
+
+            if(t.getDate().getMonth()== prevMonth.getMonth() && t.getDate().getYear() == prevMonth.getYear()){
+                System.out.println(t.toCsv());
+            }
+        }
+        System.out.println("Press Enter to return");
+        scanner.nextLine();
     }
 
 }
