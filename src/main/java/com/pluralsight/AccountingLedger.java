@@ -58,6 +58,7 @@ public class AccountingLedger {
         boolean isRunning = true;
         while (isRunning) {
 
+            //displaying the main menu options
             System.out.println("""
                     Welcome to the Account Ledger!
                     
@@ -67,19 +68,21 @@ public class AccountingLedger {
                     Enter X) Exit Application
                     """);
 
-            String input = scanner.nextLine();
+            //reading the user's input and convert it to uppercase incase they enter something in lowercase
+            String input = scanner.nextLine().toUpperCase();
 
+            //using the switch statement to process the users input/choice
             switch (input) {
                 case "D":
-                    addDeposit();
+                    addDeposit(); //calling the method to add a new deposit
                     break;
 
                 case "P":
-                    makePayment();
+                    makePayment(); //calling the method to make a payment
                     break;
 
                 case "L":
-                    ledger();
+                    ledger(); //calling a method to open up the ledger
                     break;
 
                 case "X":
@@ -93,8 +96,8 @@ public class AccountingLedger {
         }
     }
 
-    //prompt the user for deposit information (date|time|description|vendor|amount) and save it to the csv file
-    //also save it to the array list "transList"
+    //prompting the user for deposit information (date|time|description|vendor|amount) and save it to the csv file
+    //also save it to the array list "transList" and saves it to the csv file
 
     public static void addDeposit(){
 
